@@ -8,11 +8,12 @@ class UsersLogin {
   async auth(email: string, password: string): Promise<unknown> {
     const user = await usersService.findUserByEmail({ email });
     const userPassword = user.password;
+    const errorMessage = "Invalid email or password";
     const token = jwt.sign({ email }, process.env.TOKEN_SECRET as string);
     if (await bcrypt.compare(password, userPassword)) {
       return { email, token };
     } else {
-      throw new Error("Invalid email or password");
+      throw new Error(errorMessage);
     }
   }
 }

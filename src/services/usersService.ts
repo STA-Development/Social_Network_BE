@@ -1,7 +1,7 @@
+import bcrypt from "bcrypt";
 import { Users } from "../database/entities/users";
 import { ReqItemsTypes } from "../libs/types";
 import { connectDB } from "../database/databaseConnect";
-import bcrypt from "bcrypt";
 import { ValidateSignUp } from "../validators/validate";
 const userRepository = connectDB.getRepository(Users);
 class UsersService {
@@ -14,7 +14,7 @@ class UsersService {
       password: hashedPassword,
     });
   }
-  async readUsers(): Promise<Array<Users>> {
+  async readUsers(): Promise<Users[]> {
     const userRepository = connectDB.getRepository(Users);
     return userRepository.find();
   }
@@ -27,9 +27,6 @@ class UsersService {
     const user = await userRepository.findOneBy({ email });
     if (!user) throw new Error("No User");
     return user;
-  }
-  async findUser(query: object): Promise<Users | null> {
-    return await userRepository.findOneBy(query);
   }
 }
 export default new UsersService();

@@ -16,6 +16,15 @@
     "prettier"
   ],
   "rules": {
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "variable",
+        "format": [
+          "camelCase", "UPPER_CASE", "strictCamelCase", "PascalCase"
+        ]
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "prettier/prettier": [
@@ -23,6 +32,8 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }

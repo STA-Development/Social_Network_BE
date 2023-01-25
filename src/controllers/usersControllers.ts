@@ -1,37 +1,28 @@
+import { Response, Request } from "express";
 import { ReqItemsTypes } from "../libs/types";
 import usersService from "../services/usersService";
-import { Users } from "../database/entities/users";
 import { Path } from "tsoa";
-import { Response, Request } from "express";
 
 class UsersController {
-  async create(req: Request, res: Response): Promise<unknown> {
+  async create(req: Request, res: Response) {
+    const body: ReqItemsTypes = req.body;
+    const user = await usersService.createUser(body);
     try {
-      const body: ReqItemsTypes = req.body;
-      const user = await usersService.createUser(body);
       return res.json(user);
     } catch (error) {
-      console.log(error);
-      return res.json({
-        msg: "fail to create",
-        status: 400,
-      });
+      return error;
     }
   }
 
-  async get(request: Request, response: Response): Promise<unknown> {
+  async get(req: Request, res: Response) {
+    const users = await usersService.readUsers();
     try {
-      const users = await usersService.readUsers();
-      return response.json(users);
+      return res.json(users);
     } catch (error) {
-      console.log(error);
-      return response.json({
-        msg: "fail to create",
-        status: 400,
-      });
+      return error;
     }
   }
-  async getUser(@Path() id: number): Promise<Users | null> {
+  async getUser(@Path() id: number) {
     return usersService.readOneUser(Number(id));
   }
 }
