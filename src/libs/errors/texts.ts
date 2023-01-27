@@ -1,6 +1,4 @@
-export const Names = {
-  type: "mysql",
-};
+export const localAddress = "http://localhost:3000";
 export const typeName = "mysql";
 export const Errors = {
   userExist: "User is not exist",

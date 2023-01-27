@@ -5,9 +5,9 @@ import { Path } from "tsoa";
 
 class UsersController {
   async create(req: Request, res: Response) {
-    const body: ReqItemsTypes = req.body;
-    const user = await usersService.createUser(body);
     try {
+      const body: ReqItemsTypes = req.body;
+      const user = await usersService.createUser(body);
       return res.json(user);
     } catch (error) {
       throw new Error(error);
@@ -15,15 +15,15 @@ class UsersController {
   }
 
   async get(req: Request, res: Response) {
-    const users = await usersService.readUsers();
     try {
+      const users = await usersService.readUsers();
       return res.json(users);
     } catch (error) {
       throw new Error(error);
     }
   }
   async getUser(@Path() id: number) {
-    return usersService.readOneUser(Number(id));
+    return usersService.readOneUser(id);
   }
 }
 export default new UsersController();

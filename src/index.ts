@@ -1,14 +1,14 @@
 import { connectDB } from "./database/databaseConnect";
 import { router } from "./routes/usersRoutes";
-
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import * as dotenv from "dotenv";
+import { localAddress } from "./libs/errors/texts";
+
 dotenv.config();
 const app = express();
 app.use(bodyParser.json());
-const localAddress = "http://localhost:3000";
 app.use(cors({ origin: localAddress }));
 app.use("/api/usersInformation", router);
 

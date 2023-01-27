@@ -4,28 +4,35 @@ import { ReqItemsTypes } from "../libs/types";
 import { connectDB } from "../database/databaseConnect";
 import { ValidateSignUp } from "../validators/validate";
 import { Errors } from "../libs/errors/texts";
-const userRepository = connectDB.getRepository(Users);
+import { Repository } from "typeorm/repository/Repository";
+
 class UsersService {
+  private userRepository: Repository<Users>;
+  constructor() {
+    this.userRepository = connectDB.getRepository(Users);
+  }
   async createUser(payload: ReqItemsTypes): Promise<Users> {
     const user: ReqItemsTypes = await ValidateSignUp.validateAsync(payload);
     const password = payload.password;
     const hashedPassword = await bcrypt.hash(password, 10);
-    return userRepository.save({
+    return this.userRepository.save({
       ...user,
       password: hashedPassword,
     });
   }
-  async readUsers(): Promise<Users[]> {
-    const userRepository = connectDB.getRepository(Users);
-    return userRepository.find();
+  async readUsers() {
+    return this.userRepository.find();
   }
-  async readOneUser(id: number): Promise<Users | null> {
-    const user = await userRepository.findOne({ where: { id } });
-    if (!user) return null;
-    return user;
+  async readOneUser(id: number) {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+      return user;
+    } catch {
+      throw new Error(Errors.userExist);
+    }
   }
-  async findUserByEmail({ email }: { email: string }): Promise<Users> {
-    const user = await userRepository.findOneBy({ email });
+  async findUserByEmail({ email }: { email: string }) {
+    const user = await this.userRepository.findOneBy({ email });
     if (!user) throw new Error(Errors.userExist);
     return user;
   }

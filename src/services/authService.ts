@@ -6,15 +6,14 @@ import { Errors } from "../libs/errors/texts";
 
 dotenv.config();
 class UsersLogin {
-  async auth(email: string, password: string): Promise<unknown> {
+  async auth(email: string, password: string) {
     const user = await usersService.findUserByEmail({ email });
     const userPassword = user.password;
-    const errorMessage = Errors.validError;
     const token = jwt.sign({ email }, process.env.TOKEN_SECRET as string);
     if (await bcrypt.compare(password, userPassword)) {
       return { email, token };
     } else {
-      throw new Error(errorMessage);
+      throw new Error(Errors.validError);
     }
   }
 }

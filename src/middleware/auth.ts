@@ -5,7 +5,6 @@ import { Errors } from "../libs/errors/texts";
 dotenv.config();
 const protect = async (req: Request, res: Response, next: NextFunction) => {
   let token;
-  const notToken = Errors.AuthToken;
   if (req.headers?.authorization?.startsWith("Bearer")) {
     try {
       token = req.headers.authorization.split(" ")[1];
@@ -14,7 +13,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
       next();
     } catch (error) {
       res.status(401);
-      throw new Error(notToken);
+      throw new Error(Errors.AuthToken);
     }
   }
   if (!token) {
