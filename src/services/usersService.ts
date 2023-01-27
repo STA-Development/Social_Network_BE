@@ -3,7 +3,7 @@ import { Users } from "../database/entities/users";
 import { ReqItemsTypes } from "../libs/types";
 import { connectDB } from "../database/databaseConnect";
 import { ValidateSignUp } from "../validators/validate";
-import { userExist } from "../libs/errors/error";
+import { Errors } from "../libs/errors/texts";
 const userRepository = connectDB.getRepository(Users);
 class UsersService {
   async createUser(payload: ReqItemsTypes): Promise<Users> {
@@ -26,7 +26,7 @@ class UsersService {
   }
   async findUserByEmail({ email }: { email: string }): Promise<Users> {
     const user = await userRepository.findOneBy({ email });
-    if (!user) throw new Error(userExist);
+    if (!user) throw new Error(Errors.userExist);
     return user;
   }
 }

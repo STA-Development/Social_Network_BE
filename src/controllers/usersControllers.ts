@@ -10,7 +10,7 @@ class UsersController {
     try {
       return res.json(user);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 
@@ -19,7 +19,7 @@ class UsersController {
     try {
       return res.json(users);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
   async getUser(@Path() id: number) {

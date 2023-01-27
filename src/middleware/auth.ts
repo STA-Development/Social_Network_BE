@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import * as dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { AuthToken, TokenExist } from "../libs/errors/error";
+import { Errors } from "../libs/errors/texts";
 dotenv.config();
 const protect = async (req: Request, res: Response, next: NextFunction) => {
   let token;
-  const notToken = AuthToken;
+  const notToken = Errors.AuthToken;
   if (req.headers?.authorization?.startsWith("Bearer")) {
     try {
       token = req.headers.authorization.split(" ")[1];
@@ -19,7 +19,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
   }
   if (!token) {
     res.status(401);
-    throw new Error(TokenExist);
+    throw new Error(Errors.TokenExist);
   }
 };
 export { protect };
