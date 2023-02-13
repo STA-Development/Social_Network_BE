@@ -5,4 +5,5 @@ export const Errors = {
   validError: "Invalid email or password !",
   AuthToken: "Not authorized token",
   TokenExist: "Token not found!",
+  ProfileError: "Image not Found!",
 };

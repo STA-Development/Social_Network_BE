@@ -5,12 +5,15 @@ import { connectDB } from "../database/databaseConnect";
 import { ValidateSignUp } from "../validators/validate";
 import { Errors } from "../libs/errors/texts";
 import { Repository } from "typeorm/repository/Repository";
+import { upload } from "../libs/storage/storage";
 
 class UsersService {
   private userRepository: Repository<Users>;
+
   constructor() {
     this.userRepository = connectDB.getRepository(Users);
   }
+
   async createUser(payload: ReqItemsTypes): Promise<Users> {
     const user: ReqItemsTypes = await ValidateSignUp.validateAsync(payload);
     const password = payload.password;
@@ -23,6 +26,7 @@ class UsersService {
   async readUsers() {
     return this.userRepository.find();
   }
+
   async readOneUser(id: number) {
     try {
       const user = await this.userRepository.findOne({ where: { id } });
@@ -31,10 +35,15 @@ class UsersService {
       throw new Error(Errors.userExist);
     }
   }
+
   async findUserByEmail({ email }: { email: string }) {
     const user = await this.userRepository.findOneBy({ email });
     if (!user) throw new Error(Errors.userExist);
     return user;
   }
+  // async updateProfile(id: number) {
+  //   const profle = upload.single("ProfileImg");
+  //   return await this.userRepository.update({ id }, { profile_image: 'profile' });
+  // }
 }
 export default new UsersService();
