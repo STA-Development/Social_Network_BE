@@ -7,15 +7,6 @@ import * as dotenv from "dotenv";
 import { localAddress } from "./libs/errors/texts";
 dotenv.config();
 const app = express();
-/*
-app.use(
-  bodyParser.raw({
-    type: "image/png",
-    limit: "10mb",
-  })
-);
- */
-//app.use(express.static("./libs/storage/uploads"));
 
 app.use(express.static("./public/images"));
 

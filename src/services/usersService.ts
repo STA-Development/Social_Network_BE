@@ -5,8 +5,7 @@ import { connectDB } from "../database/databaseConnect";
 import { ValidateSignUp } from "../validators/validate";
 import { Errors } from "../libs/errors/texts";
 import { Repository } from "typeorm/repository/Repository";
-import { upload } from "../libs/storage/storage";
-
+//import { upload } from "../libs/storage/storage";
 class UsersService {
   private userRepository: Repository<Users>;
 
@@ -41,9 +40,5 @@ class UsersService {
     if (!user) throw new Error(Errors.userExist);
     return user;
   }
-  // async updateProfile(id: number) {
-  //   const profle = upload.single("ProfileImg");
-  //   return await this.userRepository.update({ id }, { profile_image: 'profile' });
-  // }
 }
 export default new UsersService();

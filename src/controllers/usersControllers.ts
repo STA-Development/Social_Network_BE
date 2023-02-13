@@ -1,9 +1,7 @@
 import { Response, Request } from "express";
 import { ReqItemsTypes } from "../libs/types";
 import usersService from "../services/usersService";
-import { Errors } from "../libs/errors/texts";
 import { Path } from "tsoa";
-import { upload } from "../libs/storage/storage";
 
 class UsersController {
   async create(req: Request, res: Response) {
@@ -27,15 +25,6 @@ class UsersController {
 
   async getUser(@Path() id: number) {
     return usersService.readOneUser(id);
-  }
-
-  async updateProfile(req: Request, res: Response) {
-    try {
-      upload.single("ProfileImg");
-      return res.json({});
-    } catch {
-      throw new Error(Errors.ProfileError);
-    }
   }
 }
 export default new UsersController();
