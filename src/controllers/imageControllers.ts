@@ -3,7 +3,6 @@ import { Users } from "../database/entities/users";
 import { Repository } from "typeorm/repository/Repository";
 import { connectDB } from "../database/databaseConnect";
 import ImageServices from "../services/imageServices";
-//import usersService from "../services/usersService";
 
 class ImageControllers {
   private userRepository: Repository<Users>;
@@ -11,21 +10,26 @@ class ImageControllers {
   constructor() {
     this.userRepository = connectDB.getRepository(Users);
   }
-  async uploadImage(req: Request, res: Response) {
+  async uploadProfileImage(req: Request, res: Response) {
     try {
-      const id = Number(req.query.id);
-      const profileName = req.file?.originalname || "No profile image";
-      const profile = await ImageServices.updateImage(id, profileName);
+      const id = req.body.id;
+      const profileName =
+        `public/images/${Date.now()}_${req.file?.originalname}` ||
+        "No profile image";
+      const profile = await ImageServices.updateProfileImage(id, profileName);
       return res.json(profile);
     } catch (error) {
       throw new Error(error);
     }
   }
-  async getUserProfile(req: Request, res: Response) {
+  async uploadCoverImage(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      const users = await ImageServices.getUserProfile(id);
-      return res.json(users);
+      const id = req.body.id;
+      const coverName =
+        `public/images/${Date.now()}_${req.file?.originalname}` ||
+        "No cover image";
+      const cover = await ImageServices.updateCoverImage(id, coverName);
+      return res.json(cover);
     } catch (error) {
       throw new Error(error);
     }

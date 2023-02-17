@@ -14,6 +14,7 @@ class UsersService {
   }
 
   async createUser(payload: ReqItemsTypes): Promise<Users> {
+    console.log(payload, 333);
     const user: ReqItemsTypes = await ValidateSignUp.validateAsync(payload);
     const password = payload.password;
     const hashedPassword = await bcrypt.hash(password, 10);

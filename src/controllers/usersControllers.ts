@@ -1,7 +1,6 @@
 import { Response, Request } from "express";
 import { ReqItemsTypes } from "../libs/types";
 import usersService from "../services/usersService";
-import { Path } from "tsoa";
 
 class UsersController {
   async create(req: Request, res: Response) {
@@ -23,8 +22,15 @@ class UsersController {
     }
   }
 
-  async getUser(@Path() id: number) {
-    return usersService.readOneUser(id);
+  async getOneUser(req: Request, res: Response) {
+    try {
+      const id = req.body.id;
+      console.log(id);
+      const user = await usersService.readOneUser(id);
+      return res.json(user);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
 export default new UsersController();

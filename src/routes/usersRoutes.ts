@@ -4,17 +4,21 @@ import LoginController from "../controllers/authControllers";
 import { protect } from "../middleware/auth";
 import { upload } from "../libs/storage/storage";
 import imageControllers from "../controllers/imageControllers";
-console.log(upload, 4325);
-const router = express.Router();
+export const router = express.Router();
 
 router.get("/users", protect, usersControllers.get);
 router.post("/signup", usersControllers.create);
 router.post("/login", LoginController.loginUser);
-router.get("/signup/:id", usersControllers.getUser);
+router.get("/user", protect, usersControllers.getOneUser);
 router.patch(
-  "/profile/images",
+  "/profile",
   upload.single("ProfileImg"),
-  imageControllers.uploadImage
+  protect,
+  imageControllers.uploadProfileImage
 );
-router.get("/public/profile/:id/images/", imageControllers.getUserProfile);
-export { router };
+router.patch(
+  "/cover",
+  upload.single("CoverImg"),
+  protect,
+  imageControllers.uploadCoverImage
+);

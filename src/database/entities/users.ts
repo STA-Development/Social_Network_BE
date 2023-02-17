@@ -14,8 +14,8 @@ export class Users extends BaseEntity {
   @Column() last_name: string;
   @Column({ unique: true }) email: string;
   @Column() password: string;
-  @Column() cover_image: string;
-  @Column() profile_image: string;
+  @Column({ nullable: true }) profile_image: string;
+  @Column({ nullable: true }) cover_image: string;
   @CreateDateColumn() created_at: Date;
   @UpdateDateColumn() updated_at: Date;
 }

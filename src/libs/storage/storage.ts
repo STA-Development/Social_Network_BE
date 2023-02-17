@@ -7,7 +7,7 @@ export const storage = multer.diskStorage({
   },
   filename: (req: Request, file, cb) => {
     const [name, extension] = file.originalname.split(".");
-    const fileName = `${name}_${Date.now()}.${extension}`;
+    const fileName = `${Date.now()}_${name}.${extension}`;
     cb(null, fileName);
   },
 });
