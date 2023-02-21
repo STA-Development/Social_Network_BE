@@ -4,7 +4,7 @@ import { Users } from "./entities/users";
 import { typeName } from "../libs/errors/texts";
 dotenv.config();
 
-export const connectDB = new DataSource({
+export const DBMS_MYSQL = new DataSource({
   type: typeName,
   host: process.env.DB_HOST,
   username: process.env.DB_USER,

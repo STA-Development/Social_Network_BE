@@ -1,15 +1,9 @@
 import Joi from "joi";
+import { regex } from "../libs/errors/texts";
 
-export const ValidateSignUp = Joi.object({
+export const validateSignUp = Joi.object({
   first_name: Joi.string().alphanum().min(3).max(30).required(),
   last_name: Joi.string().alphanum().min(3).max(30).required(),
-  email: Joi.string()
-    .email()
-    .regex(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )
-    .required(),
-  password: Joi.string()
-    .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
-    .required(),
+  email: Joi.string().email().regex(regex.email).required(),
+  password: Joi.string().regex(regex.password).required(),
 });

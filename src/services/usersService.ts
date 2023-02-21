@@ -1,24 +1,22 @@
 import bcrypt from "bcrypt";
 import { Users } from "../database/entities/users";
-import { ReqItemsTypes } from "../libs/types";
-import { connectDB } from "../database/databaseConnect";
-import { ValidateSignUp } from "../validators/validate";
-import { Errors } from "../libs/errors/texts";
+import { UsersTypes } from "../libs/types";
+import { DBMS_MYSQL } from "../database/databaseConnect";
+import { validateSignUp } from "../validators/validate";
+import { errorsText } from "../libs/errors/texts";
 import { Repository } from "typeorm/repository/Repository";
-//import { upload } from "../libs/storage/storage";
 class UsersService {
   private userRepository: Repository<Users>;
 
   constructor() {
-    this.userRepository = connectDB.getRepository(Users);
+    this.userRepository = DBMS_MYSQL.getRepository(Users);
   }
 
-  async createUser(payload: ReqItemsTypes): Promise<Users> {
-    console.log(payload, 333);
-    const user: ReqItemsTypes = await ValidateSignUp.validateAsync(payload);
+  async createUser(payload: UsersTypes): Promise<void> {
+    const user: UsersTypes = await validateSignUp.validateAsync(payload);
     const password = payload.password;
     const hashedPassword = await bcrypt.hash(password, 10);
-    return this.userRepository.save({
+    await this.userRepository.save({
       ...user,
       password: hashedPassword,
     });
@@ -32,13 +30,13 @@ class UsersService {
       const user = await this.userRepository.findOne({ where: { id } });
       return user;
     } catch {
-      throw new Error(Errors.userExist);
+      throw new Error(errorsText.userNotExist);
     }
   }
 
   async findUserByEmail({ email }: { email: string }) {
     const user = await this.userRepository.findOneBy({ email });
-    if (!user) throw new Error(Errors.userExist);
+    if (!user) throw new Error(errorsText.userNotExist);
     return user;
   }
 }

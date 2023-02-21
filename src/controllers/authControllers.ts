@@ -5,8 +5,8 @@ dotenv.config();
 class LoginController {
   async loginUser(req: Request, res: Response) {
     const { id, email, password } = req.body;
-    const record = await UsersLogin.auth(id, email, password);
-    return res.json(record);
+    const usersInformation = await UsersLogin.auth(id, email, password);
+    return res.json(usersInformation);
   }
 }
 export default new LoginController();
