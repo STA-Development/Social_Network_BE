@@ -9,7 +9,7 @@ export const router = express.Router();
 router.get("/users", protect, usersControllers.get);
 router.post("/signup", usersControllers.create);
 router.post("/login", LoginController.loginUser);
-router.get("/user", protect, usersControllers.getOneUser);
+router.get("/user", protect, usersControllers.getUser);
 router.patch(
   "/profile",
   upload.single("ProfileImg"),

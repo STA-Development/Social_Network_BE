@@ -10,10 +10,10 @@ class ImageService {
   }
 
   async updateProfileImage(id: number, profile: string) {
-    return await this.userRepository.update({ id }, { profile_image: profile });
+    return await this.userRepository.update({ id }, { profileImage: profile });
   }
   async updateCoverImage(id: number, cover: string) {
-    return await this.userRepository.update({ id }, { cover_image: cover });
+    return await this.userRepository.update({ id }, { coverImage: cover });
   }
 }
 export default new ImageService();

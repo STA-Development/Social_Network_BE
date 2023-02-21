@@ -22,7 +22,7 @@ class UsersController {
     }
   }
 
-  async getOneUser(req: Request, res: Response) {
+  async getUser(req: Request, res: Response) {
     try {
       const id = req.body.id;
       const user = await usersService.readOneUser(id);
