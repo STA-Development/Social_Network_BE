@@ -1,21 +1,15 @@
 import { Response, Request } from "express";
-import { Users } from "../database/entities/users";
-import { Repository } from "typeorm/repository/Repository";
-import { DBMS_MYSQL } from "../database/databaseConnect";
 import ImageServices from "../services/imageServices";
 import { currentDate } from "../libs/errors/texts";
+import fileUpload from "express-fileupload";
+import imageServices from "../services/imageServices";
 
 class ImageControllers {
-  private userRepository: Repository<Users>;
-
-  constructor() {
-    this.userRepository = DBMS_MYSQL.getRepository(Users);
-  }
   async uploadProfileImage(req: Request, res: Response) {
     try {
       const profileName = (currentDate: number) => {
         const originalName = req.file?.originalname;
-        return `/images/${currentDate}_${originalName}`;
+        return `/profiles/${currentDate}_${originalName}`;
       };
       const id = req.body.id;
       const profile = await ImageServices.updateProfileImage(
@@ -27,11 +21,12 @@ class ImageControllers {
       throw new Error(error);
     }
   }
+
   async uploadCoverImage(req: Request, res: Response) {
     try {
       const coverName = (currentDate: number) => {
         const originalName = req.file?.originalname;
-        return `/images/${currentDate}_${originalName}`;
+        return `/coverProfile/${currentDate}_${originalName}`;
       };
       const id = req.body.id;
       const cover = await ImageServices.updateCoverImage(
@@ -39,6 +34,70 @@ class ImageControllers {
         coverName(currentDate)
       );
       return res.json(cover);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async createPhotos(req: Request, res: Response) {
+    try {
+      const id = req.body.id;
+      const quotes = req.body.quotes;
+      const originalName = req.files as unknown as fileUpload.FileArray[];
+      const post = await ImageServices.createUserPhotos(
+        id,
+        quotes,
+        originalName
+      );
+      return res.json(post);
+    } catch (error) {
+      return res.json({
+        msg: error,
+        status: 400,
+      });
+    }
+  }
+  async updatePosts(req: Request, res: Response) {
+    try {
+      const id = req.body.id;
+      const quotes = req.body.quotes;
+      const updatePost = await ImageServices.updatePosts(id, quotes);
+      return res.json(updatePost);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async getPhotos(req: Request, res: Response) {
+    try {
+      const postId = req.body.postId;
+      const user = await ImageServices.getUserPhotos(postId);
+      return res.json(user);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async getLimitedPhotos(req: Request, res: Response) {
+    try {
+      const postId = req.body.postId;
+      const user = await ImageServices.getUserPhotosLimited(postId);
+      return res.json(user);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async deletePost(req: Request, res: Response) {
+    try {
+      const id = +req.params.id;
+      const deletePost = await imageServices.deleteUserPost(id);
+      return res.json(deletePost);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async deleteImage(req: Request, res: Response) {
+    try {
+      const postId = +req.body.postId;
+      const deleteImage = await imageServices.deleteImage(postId);
+      return res.json(deleteImage);
     } catch (error) {
       throw new Error(error);
     }

@@ -1,9 +1,9 @@
 import multer from "multer";
 import { Request } from "express";
 import { currentDate } from "../errors/texts";
-export const storage = multer.diskStorage({
+export const profileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public/images");
+    cb(null, "./public/profiles");
   },
   filename: (req: Request, file, cb) => {
     const [name, extension] = file.originalname.split(".");
@@ -11,8 +11,8 @@ export const storage = multer.diskStorage({
     cb(null, fileName);
   },
 });
-export const upload = multer({
-  storage: storage,
+export const uploadProfile = multer({
+  storage: profileStorage,
   limits: {
     fileSize: 1000000,
   },

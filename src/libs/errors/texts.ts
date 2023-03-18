@@ -14,4 +14,6 @@ export const errorsText = {
   imageNotFound: "Image not Found!",
   NoProfile: "No Profile Image",
   NoCover: "No Cover Image",
+  IdNotFound: "Id not Found!",
+  TextNotFound: "Text is not Found ",
 };

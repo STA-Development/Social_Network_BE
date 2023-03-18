@@ -9,3 +9,8 @@ export type JWTPayload = {
   id: number;
   iat: number;
 };
+export type UserPhotosTypes = {
+  id: number;
+  photo: string;
+  userId: number;
+};

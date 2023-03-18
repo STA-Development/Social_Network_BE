@@ -16,6 +16,7 @@
     "prettier"
   ],
   "rules": {
+    "no-console": "error",
     "@typescript-eslint/naming-convention": [
       "error",
       {
