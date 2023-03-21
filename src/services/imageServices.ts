@@ -28,9 +28,10 @@ class ImageService {
   async createUserPhotos(
     userId: number,
     quotes: string,
+    date: string,
     originalName: fileUpload.FileArray[]
   ): Promise<void> {
-    const post = await this.postRepository.save({ userId, quotes });
+    const post = await this.postRepository.save({ userId, quotes, date });
     const promises = originalName.map((file) => {
       const fileName = `/userPhotos/${file.filename}`;
       const entity = this.photoRepository.create({
@@ -67,20 +68,9 @@ class ImageService {
       throw new Error(errorsText.userNotExist);
     }
   }
-  async deleteUserPost(id: number) {
+  async deleteImage(id: number) {
     try {
-      return (
-        (await this.photoRepository.delete({ postId: id })) &&
-        (await this.postRepository.delete({ id }))
-      );
-    } catch {
-      throw new Error(errorsText.IdNotFound);
-    }
-  }
-  async deleteImage(postId: number) {
-    try {
-      const photoId = await this.photoRepository.delete({ postId });
-      return photoId && (await this.postRepository.delete({ id: postId }));
+      return await this.photoRepository.delete({ id });
     } catch {
       throw new Error(errorsText.IdNotFound);
     }

@@ -4,7 +4,7 @@ import {
   BaseEntity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
+  //CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
@@ -18,6 +18,6 @@ export class Posts extends BaseEntity {
   @ManyToOne(() => Users, (user) => user.posts) user: Users;
   @OneToMany(() => Photos, (photos) => photos.post, { cascade: true })
   photos: Photos[];
-  @CreateDateColumn() createdAt: Date;
+  @Column({ nullable: true }) date: string;
   @UpdateDateColumn() updated_at: Date;
 }

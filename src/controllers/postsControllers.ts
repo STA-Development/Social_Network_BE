@@ -3,8 +3,8 @@ import PostsServices from "../services/postsServices";
 class PostsControllers {
   async createPosts(req: Request, res: Response) {
     try {
-      const { id, quotes, createdAt } = req.body;
-      const posts = await PostsServices.createUserPosts(quotes, id, createdAt);
+      const { id, quotes, date } = req.body;
+      const posts = await PostsServices.createUserPosts(quotes, id, date);
       return res.json({ posts, msg: "post is created", status: 200 });
     } catch (error) {
       return res.json({
@@ -18,6 +18,15 @@ class PostsControllers {
       const take = Number(req.query.take);
       const userPosts = await PostsServices.getUsersPosts(postId, take);
       return res.json(userPosts);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async deletePost(req: Request, res: Response) {
+    try {
+      const id = +req.params.id;
+      const deletePost = await PostsServices.deleteUserPost(id);
+      return res.json(deletePost);
     } catch (error) {
       throw new Error(error);
     }

@@ -32,8 +32,8 @@ router.post(
   imageControllers.createPhotos
 );
 router.get("/limitedPhotos", protect, imageControllers.getLimitedPhotos);
-router.delete("/deleted/:id", protect, imageControllers.deletePost);
-router.post("/deletedImage", protect, imageControllers.deleteImage);
+router.delete("/deleted/:id", protect, postsControllers.deletePost);
+router.delete("/deletedImage/:id", protect, imageControllers.deleteImage);
 router.get("/photo", protect, imageControllers.getPhotos);
 router.post("/posts", protect, postsControllers.createPosts);
 router.get("/showPosts", protect, postsControllers.getPosts);

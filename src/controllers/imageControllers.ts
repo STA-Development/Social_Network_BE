@@ -41,11 +41,13 @@ class ImageControllers {
   async createPhotos(req: Request, res: Response) {
     try {
       const id = req.body.id;
+      const date = req.body.date;
       const quotes = req.body.quotes;
       const originalName = req.files as unknown as fileUpload.FileArray[];
       const post = await ImageServices.createUserPhotos(
         id,
         quotes,
+        date,
         originalName
       );
       return res.json(post);
@@ -84,19 +86,11 @@ class ImageControllers {
       throw new Error(error);
     }
   }
-  async deletePost(req: Request, res: Response) {
-    try {
-      const id = +req.params.id;
-      const deletePost = await imageServices.deleteUserPost(id);
-      return res.json(deletePost);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
+
   async deleteImage(req: Request, res: Response) {
     try {
-      const postId = +req.body.postId;
-      const deleteImage = await imageServices.deleteImage(postId);
+      const id = +req.params.id;
+      const deleteImage = await imageServices.deleteImage(id);
       return res.json(deleteImage);
     } catch (error) {
       throw new Error(error);
