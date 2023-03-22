@@ -1,10 +1,11 @@
 import { Users } from "../database/entities/users";
 import { Photos } from "../database/entities/photos";
-import { DBMS_MYSQL } from "../database/databaseConnect";
+import { dbmsMysql } from "../database/databaseConnect";
 import { Repository } from "typeorm/repository/Repository";
 import { errorsText } from "../libs/errors/texts";
 import { Posts } from "../database/entities/posts";
 import fileUpload from "express-fileupload";
+import { DeleteResult, UpdateResult } from "typeorm";
 
 class ImageService {
   private userRepository: Repository<Users>;
@@ -12,16 +13,16 @@ class ImageService {
   private postRepository: Repository<Posts>;
 
   constructor() {
-    this.userRepository = DBMS_MYSQL.getRepository(Users);
-    this.photoRepository = DBMS_MYSQL.getRepository(Photos);
-    this.postRepository = DBMS_MYSQL.getRepository(Posts);
+    this.userRepository = dbmsMysql.getRepository(Users);
+    this.photoRepository = dbmsMysql.getRepository(Photos);
+    this.postRepository = dbmsMysql.getRepository(Posts);
   }
 
-  async updateProfileImage(id: number, profile: string) {
+  async updateProfileImage(id: number, profile: string): Promise<UpdateResult> {
     return await this.userRepository.update({ id }, { profileImage: profile });
   }
 
-  async updateCoverImage(id: number, cover: string) {
+  async updateCoverImage(id: number, cover: string): Promise<UpdateResult> {
     return await this.userRepository.update({ id }, { coverImage: cover });
   }
 
@@ -43,11 +44,11 @@ class ImageService {
 
     await Promise.all(promises);
   }
-  async updatePosts(id: number, quotes: string) {
+  async updatePosts(id: number, quotes: string): Promise<UpdateResult> {
     return await this.postRepository.update({ id }, { quotes: quotes });
   }
 
-  async getUserPhotos(postId: number) {
+  async getUserPhotos(postId: number): Promise<Photos[]> {
     try {
       return await this.photoRepository.find({
         where: { postId },
@@ -57,7 +58,7 @@ class ImageService {
       throw new Error(errorsText.userNotExist);
     }
   }
-  async getUserPhotosLimited(postId: number) {
+  async getUserPhotosLimited(postId: number): Promise<Photos[]> {
     try {
       return await this.photoRepository.find({
         where: { postId },
@@ -68,7 +69,7 @@ class ImageService {
       throw new Error(errorsText.userNotExist);
     }
   }
-  async deleteImage(id: number) {
+  async deleteImage(id: number): Promise<DeleteResult> {
     try {
       return await this.photoRepository.delete({ id });
     } catch {

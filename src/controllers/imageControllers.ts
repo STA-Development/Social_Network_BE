@@ -89,7 +89,7 @@ class ImageControllers {
 
   async deleteImage(req: Request, res: Response) {
     try {
-      const id = +req.params.id;
+      const id = Number(req.params.id);
       const deleteImage = await imageServices.deleteImage(id);
       return res.json(deleteImage);
     } catch (error) {

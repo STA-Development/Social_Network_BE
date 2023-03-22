@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Users } from "../database/entities/users";
 import { UsersTypes } from "../libs/types";
-import { DBMS_MYSQL } from "../database/databaseConnect";
+import { dbmsMysql } from "../database/databaseConnect";
 import { validateSignUp } from "../validators/validate";
 import { errorsText } from "../libs/errors/texts";
 import { Repository } from "typeorm/repository/Repository";
@@ -9,7 +9,7 @@ class UsersService {
   private userRepository: Repository<Users>;
 
   constructor() {
-    this.userRepository = DBMS_MYSQL.getRepository(Users);
+    this.userRepository = dbmsMysql.getRepository(Users);
   }
 
   async createUser(payload: UsersTypes): Promise<void> {

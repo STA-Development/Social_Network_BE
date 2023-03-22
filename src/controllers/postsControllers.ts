@@ -24,7 +24,7 @@ class PostsControllers {
   }
   async deletePost(req: Request, res: Response) {
     try {
-      const id = +req.params.id;
+      const id = Number(req.params.id);
       const deletePost = await PostsServices.deleteUserPost(id);
       return res.json(deletePost);
     } catch (error) {
@@ -33,7 +33,7 @@ class PostsControllers {
   }
   async updateUserPosts(req: Request, res: Response) {
     try {
-      const id = +req.params.id;
+      const id = Number(req.params.id);
       const quotes = req.body.quotes;
       const updatePost = await PostsServices.updateUsersPosts(id, quotes);
       return res.json(updatePost);

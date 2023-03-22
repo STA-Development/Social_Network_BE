@@ -5,7 +5,11 @@ import { errorsText } from "../libs/errors/texts";
 import { JWTPayload } from "../libs/types";
 
 dotenv.config();
-const protect = async (req: Request, res: Response, next: NextFunction) => {
+const protect = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   let token;
   if (req.headers?.authorization?.startsWith("Bearer")) {
     try {

@@ -1,4 +1,4 @@
-import { DBMS_MYSQL } from "./database/databaseConnect";
+import { dbmsMysql } from "./database/databaseConnect";
 import { router } from "./routes/usersRoutes";
 import express from "express";
 import bodyParser from "body-parser";
@@ -16,7 +16,8 @@ app.use(cors({ origin: localAddress }));
 app.use("/api/usersInformation", router);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-DBMS_MYSQL.initialize()
+dbmsMysql
+  .initialize()
   .then(() => {
     console.log("Data Source has been initialized");
   })

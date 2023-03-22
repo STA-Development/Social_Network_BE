@@ -7,8 +7,7 @@ import { Posts } from "./entities/posts";
 
 dotenv.config();
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const DBMS_MYSQL = new DataSource({
+export const dbmsMysql = new DataSource({
   type: typeName,
   host: process.env.DB_HOST,
   username: process.env.DB_USER,
